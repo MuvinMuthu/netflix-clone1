@@ -5,7 +5,6 @@ on:
     branches:
       - main
 
-
 jobs:
   build:
     name: Build
@@ -13,14 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Shallow clones should be disabled for better analysis relevancy
+          
       - uses: sonarsource/sonarqube-scan-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
+          # Directly using the provided token and URL
+          SONAR_TOKEN: sqp_b909a81178736b683f43c3d04f21b8616dfce09d
+          SONAR_HOST_URL: http://47.128.78.109:9000
+
+      # Uncomment to fail the job if the Quality Gate fails
       # - uses: sonarsource/sonarqube-quality-gate-action@master
       #   timeout-minutes: 5
       #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_TOKEN: sqp_b909a81178736b683f43c3d04f21b8616dfce09d
