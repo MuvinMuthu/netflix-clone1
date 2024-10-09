@@ -47,3 +47,11 @@ jobs:
         run: |
           # Scan the file system for vulnerabilities
           trivy fs .
+
+      - name: Docker build and push
+        run: |
+            # Run commands to build and push Docker images
+            docker build --build-arg TMDB_V3_API_KEY=<APIKEY> -t netflix .
+            docker tag netflix muthu/netflix:latest
+            echo "dckr_pat_22YL5xAoSw0LWlijatpjgO8oM4g" | docker login -u muvinmuthuramalingam2017  --password-stdin
+            docker push muvinmuthuramalingam2017/netflix:latest
