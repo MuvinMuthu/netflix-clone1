@@ -42,26 +42,14 @@ jobs:
           # Install Trivy
           sudo apt-get update
           sudo apt-get install trivy -y
-
-      - name: Update Trivy DB
-        run: trivy image --download-db-only
-
       - name: Run Trivy scan
-        env:
-          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}  # Use the token from GitHub Secrets
         run: |
-          # Create a directory for Trivy's database cache
-          mkdir -p /tmp/trivy-cache
-          export TRIVY_CACHE_DIR=/tmp/trivy-cache
-          # Log in to the GitHub Container Registry using the GHCR_TOKEN
-          echo $GHCR_TOKEN | docker login ghcr.io -u ${{ secrets.GITHUB_ACTOR }} --password-stdin
           # Scan the file system for vulnerabilities
           trivy fs .
-
       - name: Docker build and push
         run: |
             # Run commands to build and push Docker images
             docker build --build-arg TMDB_V3_API_KEY=e1464541c6df1f01cdc5b44e1bd3b74c -t netflix .
             docker tag netflix muvinmuthuramalingam2017/netflix:latest
-            docker login -u muvinmuthuramalingam2017 -p Mylingam@087
+            docker login -u muvinmuthuramalingam2017 -p dckr_pat_22YL5xAoSw0LWlijatpjgO8oM4g
             docker push muvinmuthuramalingam2017/netflix:latest
